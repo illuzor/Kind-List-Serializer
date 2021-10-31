@@ -13,9 +13,9 @@ fun <T> kindListSerializer(
     throwableHandler: ThrowableHandler? = null
 ): KSerializer<List<T>> = KindListSerializer(itemSerializer, throwableHandler)
 
-private class KindListSerializer<T>(
+open class KindListSerializer<T>(
     private val itemSerializer: KSerializer<T>,
-    private val throwableHandler: ThrowableHandler?,
+    private val throwableHandler: ThrowableHandler? = null,
 ) : KSerializer<List<T>> {
 
     private val listSerializer = ListSerializer(itemSerializer)
@@ -45,6 +45,7 @@ private class KindListSerializer<T>(
             val jsonElement = jsonDecoder.decodeJsonElement()
             jsonDecoder.json.decodeFromJsonElement(itemSerializer, jsonElement)
         } catch (e: Exception) {
+            e.printStackTrace()
             throwableHandler?.handle(e)
             null
         }
