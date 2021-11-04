@@ -9,12 +9,10 @@ import org.junit.jupiter.api.Test
 
 class NestedListTest {
 
-    private object DataListSerializer : KindListSerializer<Data>(Data.serializer())
-
     @Serializable
     private data class DataContainer(
         val name: String,
-        val data: @Serializable(with = DataListSerializer::class) List<Data>,
+        val data: @Serializable(KindListSerializer::class) List<Data>,
     )
 
     @Serializable
